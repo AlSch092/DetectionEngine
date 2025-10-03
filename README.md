@@ -7,7 +7,7 @@ A generic detection engine implemented as a static library in C++ 14 (.lib) for 
 The program makes use of inheritance, where a Detection base (`IDetector`) is derived from to create each specific detection. Settings for each detection are created in a .JSON file which is grabbed over HTTP at runtime, allowing you to add new detection fragments without re-compiling the program (for example, you can add or remove blacklisted CRC32's on the server-side). The library can be combined with other libraries, such as [UltimateDRM](https://github.com/AlSch092/UltimateDRM/) (in this case, using both DetectionEngine and UDRM will give you a crude anti-cheat/anti-virus program). 
 
 ## Included Detections
-- `ByteSignatureScan.hpp -> Byte pattern in process `.text`   
+- `ByteSignatureScan.hpp` -> Byte pattern in process `.text`   
 - `CommandLineScan.hpp`  -> Command line of process  
 - `CoreIsolationScan.hpp`  -> Check if HVCI is enabled  
 - `DriverSignatureEnforcementScan.hpp` -> Check if DSE/Test mode is enabled  
