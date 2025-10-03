@@ -1,0 +1,272 @@
+[
+  {
+    "enabled": true,
+    "id": 1,
+    "label": "Byte Signature Scan",
+    "severity": 3,
+    "is_process_scan": true,
+    "is_one_time_scan": false,
+    "is_self_process_scan": false,
+    "is_system_config_scan": false,
+    "force_shutdown_on_flag": false,
+    "terminate_offending_process": true,
+	"is_continuous_scan": false,	
+    "names": [
+      "CheatEngine.exe"
+    ],
+    "artifacts": [
+      "0x48, 0x8D, 0x64, 0x24, 0x28, 0xC3, 0x00, 0x48, 0x8D, 0x64, 0x24, 0xD8, 0xC6, 0x05"
+    ]
+  },
+  {
+    "enabled": true,
+    "id": 2,
+    "label": "Open Process Handle Scan",
+    "severity": 2,
+    "is_process_scan": false,
+    "is_one_time_scan": false,
+    "is_self_process_scan": false,
+    "is_system_config_scan": false,
+    "force_shutdown_on_flag": false,
+    "terminate_offending_process": false,
+	"is_continuous_scan": false,	
+    "artifacts": [
+      "VsDebugConsole.exe",
+      "steam.exe",
+      "conhost.exe",
+      "svchost.exe"
+    ]
+  },
+  {
+    "enabled": true,
+    "id": 3,
+    "label": "File Hash Scan",
+    "severity": 3,
+    "is_process_scan": true,
+    "is_one_time_scan": false,
+    "is_self_process_scan": false,
+    "is_system_config_scan": false,
+    "force_shutdown_on_flag": false,
+    "terminate_offending_process": true,
+	"is_continuous_scan": false,	
+    "names": [
+      "Chrome1.exe", "ProcessHacker64.exe", "ProcessHacker32.exe"
+    ],
+    "artifacts": [
+      "B881517C", "60F68D8D", "033989A0"
+    ]
+  },
+  {
+    "enabled": true,
+    "id": 4,
+    "label": "Manual Mapped Module Scan",
+    "severity": 2,
+    "is_process_scan": true,
+    "is_one_time_scan": false,
+    "is_self_process_scan": true,
+    "is_system_config_scan": false,
+    "force_shutdown_on_flag": false,
+    "terminate_offending_process": true,
+	"is_continuous_scan": false	
+  },
+  {
+    "enabled": true,
+    "id": 5,
+    "label": "Hypervisor (Type 2) Scan",
+    "severity": 3,
+    "is_process_scan": false,
+    "is_one_time_scan": true,
+    "is_self_process_scan": false,
+    "is_system_config_scan": true,
+    "force_shutdown_on_flag": true,
+    "terminate_offending_process": false,
+	"is_continuous_scan": false	
+  },
+  {
+    "enabled": true,
+    "id": 6,
+    "label": "Admin Requirement Scan",
+    "severity": 1,
+    "is_process_scan": false,
+    "is_one_time_scan": true,
+    "is_self_process_scan": false,
+    "is_system_config_scan": true,
+    "force_shutdown_on_flag": false,
+    "terminate_offending_process": false,
+	"is_continuous_scan": false
+  },
+  {
+    "enabled": true,
+    "id": 7,
+    "label": "Process String Scan",
+    "severity": 3,
+    "is_process_scan": true,
+    "is_one_time_scan": false,
+    "is_self_process_scan": false,
+    "is_system_config_scan": false,
+    "force_shutdown_on_flag": false,
+    "terminate_offending_process": false,
+	"is_continuous_scan": false,	
+    "artifacts": [
+      "x32dbg_exe.pdb",
+      "x64dbg_exe.pdb",
+      "CETRAINER",
+      "AutoIT",
+      "AutoHotkey",
+      "Cheat Engine",
+      "x64DBG",
+      "OllyDBG",
+      "WinDbg",
+      "IDA Pro",
+      "Interactive Disassembler"
+    ]
+  },
+  {
+    "enabled": true,
+    "id": 8,
+    "label": "Secure Boot Scan",
+    "severity": 2,
+    "is_process_scan": false,
+    "is_one_time_scan": true,
+    "is_self_process_scan": false,
+    "is_system_config_scan": true,
+    "force_shutdown_on_flag": true,
+    "terminate_offending_process": false,
+	"is_continuous_scan": false	
+  },
+  {
+    "enabled": true,
+    "id": 9,
+    "label": "Driver Signature Enforcement Scan",
+    "severity": 2,
+    "is_process_scan": false,
+    "is_one_time_scan": true,
+    "is_self_process_scan": false,
+    "is_system_config_scan": true,
+    "force_shutdown_on_flag": true,
+    "terminate_offending_process": false,
+	"is_continuous_scan": false	
+  },
+  {
+    "enabled": true,
+    "id": 10,
+    "label": "HVCI Scan",
+    "severity": 2,
+    "is_process_scan": false,
+    "is_one_time_scan": true,
+    "is_self_process_scan": false,
+    "is_system_config_scan": true,
+    "force_shutdown_on_flag": false,
+    "terminate_offending_process": false,
+	"is_continuous_scan": false	
+  },
+  {
+    "enabled": true,
+    "id": 11,
+    "label": "IAT Scan",
+    "severity": 2,
+    "is_process_scan": false,
+    "is_one_time_scan": false,
+    "is_self_process_scan": true,
+    "is_system_config_scan": false,
+    "force_shutdown_on_flag": false,
+    "terminate_offending_process": false,
+	"is_continuous_scan": false
+  },
+  {
+    "enabled": true,
+    "id": 12,
+    "label": "Unsigned Loaded Module Scan",
+    "severity": 2,
+    "is_process_scan": false,
+    "is_one_time_scan": false,
+    "is_self_process_scan": true,
+    "is_system_config_scan": false,
+    "force_shutdown_on_flag": false,
+    "terminate_offending_process": false,
+	"is_continuous_scan": false
+  },
+  {
+    "enabled": true,
+    "id": 13,
+    "label": "Command Line Scan",
+    "severity": 2,
+    "is_process_scan": true,
+    "is_one_time_scan": false,
+    "is_self_process_scan": false,
+    "is_system_config_scan": false,
+    "force_shutdown_on_flag": false,
+    "terminate_offending_process": false,
+	"is_continuous_scan": false,	
+    "names": [
+      "python.exe"
+    ],
+    "artifacts": [
+      "aimbot.py"
+    ]
+  },
+  {
+    "enabled": true,
+    "id": 14,
+    "label": "Resource Usage Scan",
+    "severity": 1,
+    "is_process_scan": false,
+    "is_one_time_scan": false,
+    "is_self_process_scan": false,
+    "is_system_config_scan": false,
+    "force_shutdown_on_flag": false,
+    "terminate_offending_process": false,
+	"is_continuous_scan": true,
+	"artifacts": [ 
+	    "GPU 15% 10s", "CPU 90% 10s", "Memory 95% 20s"
+    ]
+  },
+  {
+    "enabled": true,
+    "id": 15,
+    "label": "Connection Scan",
+    "severity": 2,
+    "is_process_scan": false,
+    "is_one_time_scan": false,
+    "is_self_process_scan": false,
+    "is_system_config_scan": false,
+    "force_shutdown_on_flag": false,
+    "terminate_offending_process": false,
+	"is_continuous_scan": false,	
+    "names": [
+      "Stratum"
+    ],
+    "artifacts": [
+      "178.128.242.134:3333",
+    ]
+  },
+  {
+    "enabled": true,
+    "id": 16,
+    "label": "Loaded Drivers Scan",
+    "severity": 3,
+    "is_process_scan": false,
+    "is_one_time_scan": false,
+    "is_self_process_scan": false,
+    "is_system_config_scan": false,
+    "force_shutdown_on_flag": false,
+    "terminate_offending_process": false,
+	"is_continuous_scan": false,
+    "artifacts": [
+      "DBK64.sys"
+    ]	
+  },
+  {
+    "enabled": false,
+    "id": 16,
+    "label": "Process Enumerator",
+    "severity": 1,
+    "is_process_scan": false,
+    "is_one_time_scan": false,
+    "is_self_process_scan": false,
+    "is_system_config_scan": false,
+    "force_shutdown_on_flag": false,
+    "terminate_offending_process": false,
+	"is_continuous_scan": false	
+  }
+]
