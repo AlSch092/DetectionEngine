@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\include">
+      <UniqueIdentifier>{5d212880-c4cd-4a16-b7ac-bdac9ee3fee2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\src">
+      <UniqueIdentifier>{8be459fa-1cfa-478c-8161-921b5f1a99d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\json">
+      <UniqueIdentifier>{ac720b32-fa77-4677-a4a0-d84fa441df7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\Detections">
+      <UniqueIdentifier>{2e197089-ab19-4501-897e-d9f708799177}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\Capstone">
+      <UniqueIdentifier>{dd78ff1d-7750-4755-b00b-4b8208672efc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\src\Obfuscation">
+      <UniqueIdentifier>{9950509b-afec-4649-97e6-2358e369f69e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\Obfuscation">
+      <UniqueIdentifier>{6d07adc9-c5e7-4614-880a-52958c242ef7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Authenticode.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DetectionManager.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WMI.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CapstoneHelper.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Telemetry.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Obfuscation\cryptmgr_twofish_impl.c">
+      <Filter>Source Files\src\Obfuscation</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Obfuscation\CryptMgrTwoFish.cpp">
+      <Filter>Source Files\src\Obfuscation</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Authenticode.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CRC32.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DetectionManager.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DetectionResult.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EncryptedStr.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HandleGuard.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IDetector.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ntldr.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ProcessHelper.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WMI.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\json\json.hpp">
+      <Filter>Header Files\include\json</Filter>
+    </ClInclude>
+    <ClInclude Include="include\json\json_fwd.hpp">
+      <Filter>Header Files\include\json</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Detections\ByteSignatureScan.hpp">
+      <Filter>Header Files\include\Detections</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Detections\DriverSignatureEnforcementScan.hpp">
+      <Filter>Header Files\include\Detections</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Detections\FileHashScanner.hpp">
+      <Filter>Header Files\include\Detections</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Detections\ManualMapScan.hpp">
+      <Filter>Header Files\include\Detections</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Detections\ProcessHandlesScan.hpp">
+      <Filter>Header Files\include\Detections</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Detections\ProcessStringScanner.hpp">
+      <Filter>Header Files\include\Detections</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Detections\SecureBootScan.hpp">
+      <Filter>Header Files\include\Detections</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Detections\CoreIsolationScan.hpp">
+      <Filter>Header Files\include\Detections</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Detections\ProcessElevatedScan.hpp">
+      <Filter>Header Files\include\Detections</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Detections\HypervisorScan.hpp">
+      <Filter>Header Files\include\Detections</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CapstoneHelper.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\arm.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\arm64.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\bpf.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\capstone.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\evm.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\m68k.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\m680x.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\mips.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\mos65xx.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\platform.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\ppc.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\riscv.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\sh.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\sparc.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\systemz.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\tms320c64x.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\tricore.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\wasm.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\x86.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Capstone\xcore.h">
+      <Filter>Header Files\include\Capstone</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DetectionIncludes.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Detections\IATScan.hpp">
+      <Filter>Header Files\include\Detections</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Detections\UnsignedLoadedModulesScan.hpp">
+      <Filter>Header Files\include\Detections</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Detections\CommandLineScan.hpp">
+      <Filter>Header Files\include\Detections</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Detections\ResourceUsageScan.hpp">
+      <Filter>Header Files\include\Detections</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Telemetry.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\StrHelper.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Detections\NetworkScan.hpp">
+      <Filter>Header Files\include\Detections</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Detections\LoadedDriverScan.hpp">
+      <Filter>Header Files\include\Detections</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SetOnce.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Obfuscation\cryptmgr_twofish_impl.h">
+      <Filter>Header Files\include\Obfuscation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Obfuscation\CryptMgrTwoFish.h">
+      <Filter>Header Files\include\Obfuscation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Detections\ProcessScan.hpp">
+      <Filter>Header Files\include\Detections</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EventLog.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WindowsBuilds.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CircularBuffer.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ForcedIncludes.h">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Definitions.hpp">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
