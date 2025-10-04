@@ -418,6 +418,8 @@ DetectionManager::DetectionManager(const bool bUsingTelemetry, const std::string
 		try
 		{
 			this->TelemetryManager = std::make_unique<Telemetry>();
+			this->TelemetryManager->SetEndpoint(TelemetryEndpoint);
+			this->TelemetryManager->Start();
 		}
 		catch (const std::bad_alloc& ex)
 		{
@@ -426,9 +428,6 @@ DetectionManager::DetectionManager(const bool bUsingTelemetry, const std::string
 #endif
 			this->UseTelemetry(false);
 		}
-
-		this->TelemetryManager->SetEndpoint(TelemetryEndpoint);
-		this->TelemetryManager->Start();
 	}
 
 	
@@ -436,7 +435,7 @@ DetectionManager::DetectionManager(const bool bUsingTelemetry, const std::string
 	{
 		if (!this->pImpl->WMIManager->StartWMIService()) //log to event log
 		{
-			EventLog evl(L"Lighthouse");
+			EventLog evl(L"DetectionEngine");
 			constexpr auto msg = XorStr::make_encrypted(L"Cannot start program: WMI Service could not be enabled");
 			evl.error(msg.decrypt().c_str());
 			std::terminate();
@@ -885,7 +884,7 @@ bool DetectionManager::StartDetections()
 
 			if (procs.empty()) //error!
 			{
-				EventLog log(L"Lighthouse");
+				EventLog log(L"DetectionEngine");
 				log.error(L"Could not enumerate processes at startup");
 				throw std::runtime_error("[ERROR] Could not enumerate processes at startup");
 			}
@@ -914,7 +913,7 @@ bool DetectionManager::StartDetections()
 
 				if (s == 0)
 				{
-					EventLog log(L"Lighthouse");
+					EventLog log(L"DetectionEngine");
 					log.error(L"Error fetching scan ID associated with flagged process");
 					continue;
 				}
@@ -929,7 +928,7 @@ bool DetectionManager::StartDetections()
 					{
 						if (!TerminateProcess(hProc.get(), 0))
 						{
-							EventLog log(L"Lighthouse");
+							EventLog log(L"DetectionEngine");
 							std::wstring msg = L"Failed to terminate process: " + std::to_wstring(result.ProcessId);
 							log.error(msg);
 

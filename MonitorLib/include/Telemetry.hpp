@@ -86,6 +86,8 @@ public:
     VerbosityLevel GetLoggingGranularity() const noexcept { return this->LoggingLevel; }
     void SetGranularityLevel(const VerbosityLevel gl) noexcept  { this->LoggingLevel = gl; }
 
+    static std::string GenerateClientId();
+
     /**
      * @brief places a game event into the queue to be sent to the server
      *
