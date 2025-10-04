@@ -1,5 +1,5 @@
 # DetectionEngine
- <img width="1159" height="567" alt="example" src="https://github.com/user-attachments/assets/71ac27f1-5974-42d0-91a6-371e6b1700ee" />  
+<img width="1355" height="475" alt="image" src="https://github.com/user-attachments/assets/44b2aaea-be45-49e5-9185-3b05b6ed062e" />
  
 ## What is this?
 A generic detection engine implemented as a static library in C++ 14 (.lib) for Windows, which uses downloadable custom rulesets to detect and block processes. Can be used in anti-virus, anti-cheat, anti-crypto mining, etc. The code has been tested for memory & resource leaks, and can run successfully as a Windows Service for multiple weeks at a time. It uses as little CPU as possible, and most often never goes above 3% usage (tested on an Intel 6700K). WoW64 and 32-bit build are supported for most, if not all detections.    
