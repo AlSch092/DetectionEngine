@@ -10,7 +10,7 @@
     "is_system_config_scan": false,
     "force_shutdown_on_flag": false,
     "terminate_offending_process": true,
-	"is_continuous_scan": false,	
+    "is_continuous_scan": false,
     "names": [
       "CheatEngine.exe"
     ],
@@ -29,7 +29,7 @@
     "is_system_config_scan": false,
     "force_shutdown_on_flag": false,
     "terminate_offending_process": false,
-	"is_continuous_scan": false,	
+    "is_continuous_scan": false,
     "artifacts": [
       "VsDebugConsole.exe",
       "steam.exe",
@@ -40,7 +40,7 @@
   {
     "enabled": true,
     "id": 3,
-    "label": "File Hash Scan",
+    "label": "File Hash Scan (CRC32)",
     "severity": 3,
     "is_process_scan": true,
     "is_one_time_scan": false,
@@ -48,12 +48,16 @@
     "is_system_config_scan": false,
     "force_shutdown_on_flag": false,
     "terminate_offending_process": true,
-	"is_continuous_scan": false,	
+    "is_continuous_scan": false,
     "names": [
-      "Chrome1.exe", "ProcessHacker64.exe", "ProcessHacker32.exe"
+      "Chrome1.exe",
+      "ProcessHacker64.exe",
+      "ProcessHacker32.exe"
     ],
     "artifacts": [
-      "B881517C", "60F68D8D", "033989A0"
+      "B881517C",
+      "60F68D8D",
+      "033989A0"
     ]
   },
   {
@@ -67,7 +71,7 @@
     "is_system_config_scan": false,
     "force_shutdown_on_flag": false,
     "terminate_offending_process": true,
-	"is_continuous_scan": false	
+    "is_continuous_scan": false
   },
   {
     "enabled": true,
@@ -80,7 +84,7 @@
     "is_system_config_scan": true,
     "force_shutdown_on_flag": true,
     "terminate_offending_process": false,
-	"is_continuous_scan": false	
+    "is_continuous_scan": false
   },
   {
     "enabled": true,
@@ -93,7 +97,7 @@
     "is_system_config_scan": true,
     "force_shutdown_on_flag": false,
     "terminate_offending_process": false,
-	"is_continuous_scan": false
+    "is_continuous_scan": false
   },
   {
     "enabled": true,
@@ -106,7 +110,7 @@
     "is_system_config_scan": false,
     "force_shutdown_on_flag": false,
     "terminate_offending_process": false,
-	"is_continuous_scan": false,	
+    "is_continuous_scan": false,
     "artifacts": [
       "x32dbg_exe.pdb",
       "x64dbg_exe.pdb",
@@ -132,7 +136,7 @@
     "is_system_config_scan": true,
     "force_shutdown_on_flag": true,
     "terminate_offending_process": false,
-	"is_continuous_scan": false	
+    "is_continuous_scan": false
   },
   {
     "enabled": true,
@@ -145,7 +149,7 @@
     "is_system_config_scan": true,
     "force_shutdown_on_flag": true,
     "terminate_offending_process": false,
-	"is_continuous_scan": false	
+    "is_continuous_scan": false
   },
   {
     "enabled": true,
@@ -158,7 +162,7 @@
     "is_system_config_scan": true,
     "force_shutdown_on_flag": false,
     "terminate_offending_process": false,
-	"is_continuous_scan": false	
+    "is_continuous_scan": false
   },
   {
     "enabled": true,
@@ -171,7 +175,7 @@
     "is_system_config_scan": false,
     "force_shutdown_on_flag": false,
     "terminate_offending_process": false,
-	"is_continuous_scan": false
+    "is_continuous_scan": false
   },
   {
     "enabled": true,
@@ -184,7 +188,7 @@
     "is_system_config_scan": false,
     "force_shutdown_on_flag": false,
     "terminate_offending_process": false,
-	"is_continuous_scan": false
+    "is_continuous_scan": false
   },
   {
     "enabled": true,
@@ -197,7 +201,7 @@
     "is_system_config_scan": false,
     "force_shutdown_on_flag": false,
     "terminate_offending_process": false,
-	"is_continuous_scan": false,	
+    "is_continuous_scan": false,
     "names": [
       "python.exe"
     ],
@@ -216,9 +220,11 @@
     "is_system_config_scan": false,
     "force_shutdown_on_flag": false,
     "terminate_offending_process": false,
-	"is_continuous_scan": true,
-	"artifacts": [ 
-	    "GPU 15% 10s", "CPU 90% 10s", "Memory 95% 20s"
+    "is_continuous_scan": true,
+    "artifacts": [
+      "GPU 15% 10s",
+      "CPU 90% 10s",
+      "Memory 95% 20s"
     ]
   },
   {
@@ -232,7 +238,7 @@
     "is_system_config_scan": false,
     "force_shutdown_on_flag": false,
     "terminate_offending_process": false,
-	"is_continuous_scan": false,	
+    "is_continuous_scan": false,
     "names": [
       "Stratum"
     ],
@@ -251,10 +257,10 @@
     "is_system_config_scan": false,
     "force_shutdown_on_flag": false,
     "terminate_offending_process": false,
-	"is_continuous_scan": false,
+    "is_continuous_scan": false,
     "artifacts": [
       "DBK64.sys"
-    ]	
+    ]
   },
   {
     "enabled": false,
@@ -267,6 +273,6 @@
     "is_system_config_scan": false,
     "force_shutdown_on_flag": false,
     "terminate_offending_process": false,
-	"is_continuous_scan": false	
+    "is_continuous_scan": false
   }
 ]
