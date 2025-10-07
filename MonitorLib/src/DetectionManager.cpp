@@ -47,7 +47,7 @@ struct DetectionManager::Impl
 	std::condition_variable DLLQueueCV; //wake variable
 	std::queue<std::wstring> DLLVerificationQueue;
 	std::mutex DLLVerificationQueueMutex;
-	
+
 	std::unordered_set<std::wstring> PassedCertCheckModules;
 	std::unordered_set<std::wstring> UnsignedLoadedModules;
 
@@ -123,7 +123,7 @@ struct DetectionManager::Impl
 
 		if (processTerminationChecker.joinable())
 			processTerminationChecker.join();
-		
+
 		{   //remove dll callbacks
 			HMODULE hNtdll = GetModuleHandleA("ntdll.dll");
 
@@ -154,13 +154,13 @@ struct DetectionManager::Impl
 			std::vector<DetectionResult> sysCfgScanResults = RunSystemConfigScans();
 			results.insert(results.end(), sysCfgScanResults.begin(), sysCfgScanResults.end());
 		}
-		    	
+
 		if (bRunNonProcessScans)
 		{
 			std::vector<DetectionResult> nonProcScanResults = RunNonProcessScans();
 			results.insert(results.end(), nonProcScanResults.begin(), nonProcScanResults.end());
 		}
-		    
+
 		return results;
 	}
 
@@ -192,7 +192,7 @@ struct DetectionManager::Impl
 			{
 				continue;
 			}
-			else if(!d->IsSystemConfigScan())
+			else if (!d->IsSystemConfigScan())
 			{
 				if (d->GetId() == ScanIds::ProcessHandles)
 					d->SetTargetProcess(GetCurrentProcessId());
@@ -238,17 +238,17 @@ struct DetectionManager::Impl
 				OutputDebugStringA("FAILED TO TERMINATE PROCESS..\n");
 #endif
 			}
-		
+
 			if (Manager->UsingTelemetry()) //push telemetry event that we terminated process
-			{ 
+			{
 				if (loopCounter <= flagIdReason.size())
 				{
 					Manager->TelemetryManager->LogEvent(TelemetryEvent(
 						Manager->GetTelemetryManager()->FetchAddEventId(),
 						Manager->GetTelemetryManager()->GetClientId(),
-						TelemetryEvent::Action::TerminatedProcess, 
+						TelemetryEvent::Action::TerminatedProcess,
 						pid,
-						StrHelper::WStringToString(ProcessHelper::GetProcessPathByPID(pid)), 
+						StrHelper::WStringToString(ProcessHelper::GetProcessPathByPID(pid)),
 						flagIdReason[loopCounter++]
 					));
 				}
@@ -257,9 +257,9 @@ struct DetectionManager::Impl
 					Manager->TelemetryManager->LogEvent(TelemetryEvent(
 						Manager->GetTelemetryManager()->FetchAddEventId(),
 						Manager->GetTelemetryManager()->GetClientId(),
-						TelemetryEvent::Action::TerminatedProcess, 
+						TelemetryEvent::Action::TerminatedProcess,
 						pid,
-						StrHelper::WStringToString(ProcessHelper::GetProcessPathByPID(pid)), 
+						StrHelper::WStringToString(ProcessHelper::GetProcessPathByPID(pid)),
 						0
 					));
 				}
@@ -341,7 +341,7 @@ struct DetectionManager::Impl
 				auto result = d->Run();
 				result.AssociatedScanIds.push_back((uint32_t)d->GetId());
 				results.push_back(result);
-				
+
 				if (d->ShouldShutdownOnFlag() && result.Flag > DetectionFlags::EXECUTION_ERROR)
 				{
 #ifdef _LOGGING_ENABLED
@@ -430,7 +430,7 @@ DetectionManager::DetectionManager(const bool bUsingTelemetry, const std::string
 		}
 	}
 
-	
+
 	if (!this->pImpl->WMIManager->IsWMIServiceRunning())
 	{
 		if (!this->pImpl->WMIManager->StartWMIService()) //log to event log
@@ -441,7 +441,7 @@ DetectionManager::DetectionManager(const bool bUsingTelemetry, const std::string
 			std::terminate();
 		}
 	}
-	
+
 	if (this->pImpl->WMIManager->InitializeCOM())
 	{
 		ComPtr<IWbemServices> tmp;
@@ -463,9 +463,9 @@ DetectionManager::DetectionManager(const bool bUsingTelemetry, const std::string
 
 /**
  * @brief Called on destruction of a DetectionManager object
- * 
+ *
  * @details Cleans up resources used by the DetectionManager object
- * 
+ *
  * @return None
  */
 DetectionManager::~DetectionManager()
@@ -580,152 +580,152 @@ void DetectionManager::FillProcessInfo(__in PROCESS_DATA& p)
 
 /**
  * @brief Parses a `DetectionRule` structure into an actual scan and adds it to `Detectors`
- * 
+ *
  * @param `rule`  Detection rule to add to the Detectors scan list
- * 
+ *
  * @return None
- * 
+ *
  * @usage  DetectionRule rule;  DM->RegisterRule(rule);
  */
 void DetectionManager::RegisterRule(__in const DetectionRule& rule)
 {
 	switch (rule.id)
 	{
-		case ScanIds::ByteSignature:
-		{
-			auto scan = std::make_shared<ByteSignatureScan>(rule); //leave the `scan` var declared incase we need to use it for something else later on
-		
-			if (this->pImpl->MonitoredProcessId != 0)
-			{
-				scan->SetTargetProcess(this->pImpl->MonitoredProcessId);
-				scan->SetFixedProcessId(true);
-			}
+	case ScanIds::ByteSignature:
+	{
+		auto scan = std::make_shared<ByteSignatureScan>(rule); //leave the `scan` var declared incase we need to use it for something else later on
 
-			Register(std::move(scan));
-			break;
-		}
-		case ScanIds::ProcessHandles:
+		if (this->pImpl->MonitoredProcessId != 0)
 		{
-			auto scan = std::make_shared<ProcessHandlesScan>(rule);
-			Register(std::move(scan));
-			break;
-		}
-		case ScanIds::FileHash:
-		{
-			auto scan = std::make_shared<FileHashScanner>(rule);
-			Register(std::move(scan));
-			break;
-		}
-		case ScanIds::ManualMap:
-		{
-			auto scan = std::make_shared<ManualMappedModuleScan>(rule);
-
-			if (this->pImpl->MonitoredProcessId != 0)
-			{
-				scan->SetTargetProcess(this->pImpl->MonitoredProcessId);
-				scan->SetFixedProcessId(true);
-			}
-
-			Register(std::move(scan));
-			break;
-		}
-		case ScanIds::ProcessString:
-		{
-			auto scan = std::make_shared<ProcessStringScanner>(rule);
-			Register(std::move(scan));
-			break;
-		}
-		case ScanIds::HVCI:
-		{
-			auto scan = std::make_shared<HVCIScan>(rule);
-			Register(std::move(scan));
-			break;
-		}
-		case ScanIds::SecureBoot:
-		{
-			auto scan = std::make_shared<SecureBootScan>(rule);
-			Register(std::move(scan));
-			break;
-		}
-		case ScanIds::DriverSignatureEnforcement:
-		{
-			auto scan = std::make_shared<DriverSignatureEnforcementScan>(rule);
-			Register(std::move(scan));
-			break;
-		}
-		case ScanIds::Hypervisor:
-		{
-			auto scan = std::make_shared<HypervisorScan>(rule);
-			Register(std::move(scan));
-			break;
-		}
-		case ScanIds::ProcessIsAdmin:
-		{
-			auto scan = std::make_shared<ProcessElevatedScan>(rule);
-			Register(std::move(scan));
-			break;
-		}
-		case ScanIds::IATModified:
-		{
-			auto scan = std::make_shared<IATScan>(rule);
-		
-			if (this->pImpl->MonitoredProcessId != 0)
-			{
-				scan->SetTargetProcess(this->pImpl->MonitoredProcessId);
-				scan->SetFixedProcessId(true);
-			}
-		
-			Register(std::move(scan));
-			break;
-		}
-		case ScanIds::UnsignedLoadedModule:
-		{
-			auto scan = std::make_shared<UnsignedLoadedModulesScan>(rule);
-			Register(std::move(scan));
-			break;
-		}
-		case ScanIds::ProcessCommandLine:
-		{
-			auto scan = std::make_shared<CommandLineScan>(rule);
-			Register(std::move(scan));
-			break;
+			scan->SetTargetProcess(this->pImpl->MonitoredProcessId);
+			scan->SetFixedProcessId(true);
 		}
 
-		case ScanIds::ResourceUsage:
+		Register(std::move(scan));
+		break;
+	}
+	case ScanIds::ProcessHandles:
+	{
+		auto scan = std::make_shared<ProcessHandlesScan>(rule);
+		Register(std::move(scan));
+		break;
+	}
+	case ScanIds::FileHash:
+	{
+		auto scan = std::make_shared<FileHashScanner>(rule);
+		Register(std::move(scan));
+		break;
+	}
+	case ScanIds::ManualMap:
+	{
+		auto scan = std::make_shared<ManualMappedModuleScan>(rule);
+
+		if (this->pImpl->MonitoredProcessId != 0)
 		{
-			auto scan = std::make_shared<ResourceUsageScan>(rule);
-			Register(std::move(scan));
-			break;
+			scan->SetTargetProcess(this->pImpl->MonitoredProcessId);
+			scan->SetFixedProcessId(true);
 		}
 
-		case ScanIds::NetworkConnection:
+		Register(std::move(scan));
+		break;
+	}
+	case ScanIds::ProcessString:
+	{
+		auto scan = std::make_shared<ProcessStringScanner>(rule);
+		Register(std::move(scan));
+		break;
+	}
+	case ScanIds::HVCI:
+	{
+		auto scan = std::make_shared<HVCIScan>(rule);
+		Register(std::move(scan));
+		break;
+	}
+	case ScanIds::SecureBoot:
+	{
+		auto scan = std::make_shared<SecureBootScan>(rule);
+		Register(std::move(scan));
+		break;
+	}
+	case ScanIds::DriverSignatureEnforcement:
+	{
+		auto scan = std::make_shared<DriverSignatureEnforcementScan>(rule);
+		Register(std::move(scan));
+		break;
+	}
+	case ScanIds::Hypervisor:
+	{
+		auto scan = std::make_shared<HypervisorScan>(rule);
+		Register(std::move(scan));
+		break;
+	}
+	case ScanIds::ProcessIsAdmin:
+	{
+		auto scan = std::make_shared<ProcessElevatedScan>(rule);
+		Register(std::move(scan));
+		break;
+	}
+	case ScanIds::IATModified:
+	{
+		auto scan = std::make_shared<IATScan>(rule);
+
+		if (this->pImpl->MonitoredProcessId != 0)
 		{
-			auto scan = std::make_shared<NetworkScan>(rule);
-			Register(std::move(scan));
-			break;
+			scan->SetTargetProcess(this->pImpl->MonitoredProcessId);
+			scan->SetFixedProcessId(true);
 		}
 
-		case ScanIds::LoadedDrivers:
-		{
-			auto scan = std::make_shared<LoadedDriverScan>(rule);
-			Register(std::move(scan));
-			break;
-		}
+		Register(std::move(scan));
+		break;
+	}
+	case ScanIds::UnsignedLoadedModule:
+	{
+		auto scan = std::make_shared<UnsignedLoadedModulesScan>(rule);
+		Register(std::move(scan));
+		break;
+	}
+	case ScanIds::ProcessCommandLine:
+	{
+		auto scan = std::make_shared<CommandLineScan>(rule);
+		Register(std::move(scan));
+		break;
+	}
 
-		case ScanIds::ProcessEnumerator:
-		{
-			auto scan = std::make_shared<ProcessScan>(rule);
-			Register(std::move(scan));
-			break;
-		}
+	case ScanIds::ResourceUsage:
+	{
+		auto scan = std::make_shared<ResourceUsageScan>(rule);
+		Register(std::move(scan));
+		break;
+	}
 
-		default:
-		{
-	#ifdef _LOGGING_ENABLED
-			std::cerr << "Unknown scan ID in registration: " << rule.id << std::endl;
-	#endif
-			break;
-		}
+	case ScanIds::NetworkConnection:
+	{
+		auto scan = std::make_shared<NetworkScan>(rule);
+		Register(std::move(scan));
+		break;
+	}
+
+	case ScanIds::LoadedDrivers:
+	{
+		auto scan = std::make_shared<LoadedDriverScan>(rule);
+		Register(std::move(scan));
+		break;
+	}
+
+	case ScanIds::ProcessEnumerator:
+	{
+		auto scan = std::make_shared<ProcessScan>(rule);
+		Register(std::move(scan));
+		break;
+	}
+
+	default:
+	{
+#ifdef _LOGGING_ENABLED
+		std::cerr << "Unknown scan ID in registration: " << rule.id << std::endl;
+#endif
+		break;
+	}
 
 	}
 }
@@ -775,9 +775,9 @@ bool DetectionManager::FetchDetectionRules(__in const std::string& location, __i
 
 		ifs.close();
 	}
-	
+
 	if (bShouldDecrypt)
-	{	
+	{
 		char* buf_cpy = new char[jsonText.length() + 16] {0}; //block cipher pads to nearest 16 bytes, add extra buffer space or risk overflow
 		memcpy(buf_cpy, jsonText.data(), jsonText.length()); //don't use strcpy_s, will fail if any 0x00 is found in the encrypted file early on
 
@@ -924,7 +924,7 @@ bool DetectionManager::StartDetections()
 				{
 					HandleGuard hProc(OpenProcess(PROCESS_TERMINATE, FALSE, result.ProcessId));
 
-					if(hProc)
+					if (hProc)
 					{
 						if (!TerminateProcess(hProc.get(), 0))
 						{
@@ -977,8 +977,8 @@ void DetectionManager::Impl::DoNonProcessScan(__in DetectionManager* Manager)
 
 	for (const auto& result : systemConfigScanResults)
 	{
-		if(result.Flag > DetectionFlags::EXECUTION_ERROR)
-		    Manager->AddDetected(result);
+		if (result.Flag > DetectionFlags::EXECUTION_ERROR)
+			Manager->AddDetected(result);
 	}
 
 #ifdef _LOGGING_ENABLED
@@ -993,7 +993,7 @@ void DetectionManager::Impl::DoNonProcessScan(__in DetectionManager* Manager)
 			{
 				std::lock_guard<std::mutex> lck(DM->DetectorListMutex);
 				snapshot.reserve(DM->Detectors.size());
-				for (auto& sp : DM->Detectors) 
+				for (auto& sp : DM->Detectors)
 				{
 					if (sp->IsContinuousScan())
 						snapshot.push_back(sp);
@@ -1018,7 +1018,7 @@ void DetectionManager::Impl::DoNonProcessScan(__in DetectionManager* Manager)
 							OutputDebugStringW(std::to_wstring(static_cast<ScanIds>(result.Flag)).c_str());
 							OutputDebugStringW(L"\n");
 #endif
-							
+
 							DM->AddDetected(result);
 							//DM->PrintDetectedFragments();
 
@@ -1027,9 +1027,9 @@ void DetectionManager::Impl::DoNonProcessScan(__in DetectionManager* Manager)
 								DM->TelemetryManager->LogEvent(TelemetryEvent(
 									DM->GetTelemetryManager()->FetchAddEventId(),
 									DM->GetTelemetryManager()->GetClientId(),
-									TelemetryEvent::Action::Flag, 
+									TelemetryEvent::Action::Flag,
 									result.ProcessId,
-									StrHelper::WStringToString(ProcessHelper::GetProcessPathByPID(result.ProcessId)), 
+									StrHelper::WStringToString(ProcessHelper::GetProcessPathByPID(result.ProcessId)),
 									result.Flag));
 							}
 						}
@@ -1037,7 +1037,7 @@ void DetectionManager::Impl::DoNonProcessScan(__in DetectionManager* Manager)
 					catch (...)
 					{
 
-				    }
+					}
 				}
 
 				std::this_thread::sleep_for(std::chrono::milliseconds(1000)); //still wait a small bit for continuous scans to avoid overload
@@ -1101,7 +1101,7 @@ void DetectionManager::Impl::DoNonProcessScan(__in DetectionManager* Manager)
  */
 void DetectionManager::Impl::MonitorProcessCreation(__in DetectionManager* Manager)
 {
-	if (!Manager) 
+	if (!Manager)
 		return;
 
 	HRESULT hres;
@@ -1187,7 +1187,7 @@ void DetectionManager::Impl::MonitorProcessCreation(__in DetectionManager* Manag
 		if (Manager->IsShutdownScheduled())
 		{
 #ifdef _LOGGING_ENABLED
-			OutputDebugStringA("Shutting down WMI process events..\n"); 
+			OutputDebugStringA("Shutting down WMI process events..\n");
 #endif
 			break;
 		}
@@ -1223,27 +1223,27 @@ void DetectionManager::Impl::MonitorProcessCreation(__in DetectionManager* Manag
 				pClassObj->Get(processIdEnc.decrypt().c_str(), 0, &vtPid, nullptr, nullptr);
 
 				const uint32_t pid = (vtPid.vt == VT_UI4) ? (uint32_t)vtPid.ulVal : (vtPid.vt == VT_I4) ? (uint32_t)vtPid.lVal : 0U;
-				
+
 				std::wstring name = (vtName.vt == VT_BSTR && vtName.bstrVal) ? vtName.bstrVal : L"";
 
 				auto pSvc = Manager->pImpl->WMIManager.get()->GetWMIInterface();
 
 #ifdef _LOGGING_ENABLED
-				if(!name.empty())
-				    OutputDebugStringW(name.c_str());
+				if (!name.empty())
+					OutputDebugStringW(name.c_str());
 #endif
 
 				std::thread([Manager, pid, name]()
 					{
-					    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+						std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 #ifdef _LOGGING_ENABLED
-					    OutputDebugStringW(L"Running process scans");
+						OutputDebugStringW(L"Running process scans");
 #endif
 						auto results = Manager->pImpl->RunProcessScans(pid);
-					
-						for (const auto& r : results) 
+
+						for (const auto& r : results)
 						{
-							if (r.Flag > DetectionFlags::EXECUTION_ERROR && r.ProcessId == pid) 
+							if (r.Flag > DetectionFlags::EXECUTION_ERROR && r.ProcessId == pid)
 							{
 								std::wstring path = ProcessHelper::GetProcessPathByPID(pid);
 
@@ -1252,9 +1252,9 @@ void DetectionManager::Impl::MonitorProcessCreation(__in DetectionManager* Manag
 									Manager->TelemetryManager->LogEvent(TelemetryEvent(
 										Manager->GetTelemetryManager()->FetchAddEventId(),
 										Manager->GetTelemetryManager()->GetClientId(),
-										TelemetryEvent::Action::Flag, 
+										TelemetryEvent::Action::Flag,
 										pid,
-										StrHelper::WStringToString(path), 
+										StrHelper::WStringToString(path),
 										r.Flag));
 								}
 
@@ -1266,13 +1266,13 @@ void DetectionManager::Impl::MonitorProcessCreation(__in DetectionManager* Manag
 
 				if (Manager->UsingTelemetry())
 				{
-					 Manager->TelemetryManager->LogEvent(TelemetryEvent(
-						 Manager->GetTelemetryManager()->FetchAddEventId(),
-						 Manager->GetTelemetryManager()->GetClientId(),
-						 TelemetryEvent::Action::ProcessOpen,
-						 pid,
-						 StrHelper::WStringToString(ProcessHelper::GetProcessPathByPID(pid)),
-						 0));
+					Manager->TelemetryManager->LogEvent(TelemetryEvent(
+						Manager->GetTelemetryManager()->FetchAddEventId(),
+						Manager->GetTelemetryManager()->GetClientId(),
+						TelemetryEvent::Action::ProcessOpen,
+						pid,
+						StrHelper::WStringToString(ProcessHelper::GetProcessPathByPID(pid)),
+						0));
 				}
 
 				VariantClear(&vtPid);
@@ -1461,7 +1461,7 @@ void DetectionManager::Impl::MonitorProcessTermination(__in DetectionManager* Ma
 
 /**
  * @brief  DLL load/unload callback routine
- * @param `NotificationReason` Whether the dll was loaded or unloaded 
+ * @param `NotificationReason` Whether the dll was loaded or unloaded
  * @param `NotificationData`  Contains information related to the loaded/unloaded module
  * @param `Context`  User-supplied pointer, in this case to the DetectionManager
  * @return None
@@ -1510,7 +1510,7 @@ VOID CALLBACK DetectionManager::Impl::OnDllNotification(ULONG NotificationReason
 		}
 
 		Manager->pImpl->DLLQueueCV.notify_one();
-		
+
 		std::shared_ptr<IDetector> base = Manager->GetDetectorWithId(ScanIds::FileHash);
 
 		if (base != nullptr)
@@ -1519,7 +1519,7 @@ VOID CALLBACK DetectionManager::Impl::OnDllNotification(ULONG NotificationReason
 			{
 				std::thread([Manager, fhs, FullDllName]
 					{
-						DetectionResult result = fhs->Run(FullDllName); 
+						DetectionResult result = fhs->Run(FullDllName);
 						if (result.Flag > DetectionFlags::EXECUTION_ERROR)
 						{
 							Manager->AddDetected(result);
@@ -1545,14 +1545,14 @@ VOID CALLBACK DetectionManager::Impl::OnDllNotification(ULONG NotificationReason
 		if (Manager->UsingTelemetry() && Manager->TelemetryManager != nullptr)
 		{
 			Manager->TelemetryManager->LogEvent(TelemetryEvent(
-				Manager->GetTelemetryManager()->FetchAddEventId(), 
-				Manager->GetTelemetryManager()->GetClientId(), 
+				Manager->GetTelemetryManager()->FetchAddEventId(),
+				Manager->GetTelemetryManager()->GetClientId(),
 				TelemetryEvent::Action::ModuleLoad,
-				GetCurrentProcessId(), 
-				StrHelper::WStringToString(FullDllName), 
+				GetCurrentProcessId(),
+				StrHelper::WStringToString(FullDllName),
 				0));
 		}
-		    
+
 	}
 	else if (NotificationReason == LDR_DLL_NOTIFICATION_REASON_UNLOADED)
 	{
@@ -1568,13 +1568,13 @@ VOID CALLBACK DetectionManager::Impl::OnDllNotification(ULONG NotificationReason
 		if (Manager->UsingTelemetry() && Manager->TelemetryManager != nullptr)
 		{
 			Manager->TelemetryManager->LogEvent(TelemetryEvent(
-				Manager->GetTelemetryManager()->FetchAddEventId(), 
-				Manager->GetTelemetryManager()->GetClientId(), 
+				Manager->GetTelemetryManager()->FetchAddEventId(),
+				Manager->GetTelemetryManager()->GetClientId(),
 				TelemetryEvent::Action::ModuleUnload,
-				GetCurrentProcessId(), 
-				StrHelper::WStringToString(FullDllName), 
+				GetCurrentProcessId(),
+				StrHelper::WStringToString(FullDllName),
 				0));
-		}	    
+		}
 	}
 }
 
@@ -1637,12 +1637,16 @@ void DetectionManager::Impl::CheckDLLSignatures(DetectionManager* DM)
 	}
 }
 
-
-
+/**
+ * @brief  Converts a DetectionRule object to JSON
+ * @param   `j`   reference to json object to populate
+ * @param   `dr`  const reference to DetectionRule object to convert
+ * @return  None
+ */
 void to_json(json& j, const DetectionRule& dr)
 {
 	j = json{
-		{"enabled", dr.bEnabled},
+		{"enabled", dr.b_Enabled},
 		{"id", dr.id},
 		{"label", dr.Label},
 		{"severity", dr.Severity},
@@ -1658,9 +1662,15 @@ void to_json(json& j, const DetectionRule& dr)
 	};
 }
 
+/**
+ * @brief  Converts a DetectionRule object to JSON
+ * @param   `j`  const reference to json object to convert from
+ * @param   `dr`  reference to DetectionRule object to populate
+ * @return  None
+ */
 inline void from_json(const nlohmann::json& j, DetectionRule& rule)
 {
-	j.at("enabled").get_to(rule.bEnabled);
+	j.at("enabled").get_to(rule.b_Enabled);
 	j.at("id").get_to(rule.id);
 	j.at("label").get_to(rule.Label);
 	j.at("severity").get_to(rule.Severity);

@@ -8,10 +8,16 @@ struct ImportFunction
 {
 	HMODULE Module;
 	std::string AssociatedModuleName;
-	std::string FunctionName;
 	uintptr_t AddressToFuncPtr;
 	uintptr_t AddressOfData;
 	uintptr_t FunctionPtr;
+
+	ImportFunction(HMODULE hMod, std::string modName, uintptr_t addrToFuncPtr, uintptr_t addrToData, uintptr_t funcPtr) : Module(hMod), AssociatedModuleName(modName), AddressToFuncPtr(addrToFuncPtr), AddressOfData(addrToData), FunctionPtr(funcPtr) {}
+
+	bool operator==(const ImportFunction& other) const noexcept
+	{
+		return (Module == other.Module && AddressOfData == other.AddressOfData && FunctionPtr == other.FunctionPtr);
+	}
 };
 
 /**
@@ -64,7 +70,7 @@ private:
 
 		std::list<ImportFunction> importList;
 
-		while (importDesc->OriginalFirstThunk != 0  || importDesc->FirstThunk != 0)
+		while (importDesc->OriginalFirstThunk != 0 || importDesc->FirstThunk != 0)
 		{
 			if (!IsBadReadPtr(importDesc, sizeof(IMAGE_IMPORT_DESCRIPTOR)))
 				break;
@@ -80,13 +86,7 @@ private:
 			{
 				while (iat->u1.Function != 0)
 				{
-					ImportFunction import;
-                    import.AssociatedModuleName = dllName;
-                    import.Module = GetModuleHandleA(dllName);
-                    import.AddressOfData = (uintptr_t)iat->u1.AddressOfData;
-                    import.FunctionPtr = (uintptr_t)iat->u1.Function; //actual IAT pointer
-					import.AddressToFuncPtr = (uintptr_t)&iat->u1.Function;
-					importList.push_back(import);
+					importList.emplace_back(ImportFunction(GetModuleHandleA(dllName), dllName, (uintptr_t)iat->u1.AddressOfData, (uintptr_t)iat->u1.Function, (uintptr_t)&iat->u1.Function));
 					iat++;
 				}
 			}

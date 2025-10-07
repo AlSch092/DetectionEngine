@@ -92,7 +92,7 @@ public:
         if (!hProcess)
         {
 #ifdef _LOGGING_ENABLED
-            printf("Failed to open process. Error: %d\n", GetLastError());
+            std::cerr << "Failed to open process. Error: " << GetLastError() << std::endl;
 #endif
             bytesRead = 0;
             return nullptr;
@@ -104,7 +104,7 @@ public:
         if (!GetRemoteSectionAddress(hProcess, section, baseAddress, sectionSize))
         {
 #ifdef _LOGGING_ENABLED
-            printf("Failed to find the .text section.");
+            std::cerr << "Failed to find the .text section. @ ReadRemoteSection\n";
 #endif
             bytesRead = 0;
             return nullptr;
@@ -120,7 +120,7 @@ public:
         if (!ReadProcessMemory(hProcess, reinterpret_cast<LPCVOID>(baseAddress), buffer, sectionSize, (SIZE_T*)&RPMBytesRead))
         {
 #ifdef _LOGGING_ENABLED
-            //printf("Failed to read memory. Error: %d\n", GetLastError());
+			std::cerr << "Failed to read memory @ ReadRemoteSection. Error: " << GetLastError() << std::endl;
 #endif
             bytesRead = 0;
             return nullptr;
@@ -144,7 +144,7 @@ public:
         if (!hProcess)
         {
 #ifdef _LOGGING_ENABLED
-            printf("Failed to open process. Error: %d", GetLastError());
+            std::cerr << "Failed to open process @ ReadRemoteSectionWoW64. Error: " << GetLastError() << std::endl;
 #endif
             readSize = 0;
             return nullptr;
@@ -161,7 +161,7 @@ public:
 
         if (!GetRemoteSectionAddressWoW64(hProcess, section, textAddr, textSize))
         {
-            printf("Failed to fetch remote text sction addr!\n");
+            std::cerr << "Failed to fetch remote text sction addr @ ReadRemoteSectionWoW64!\n";
             readSize = 0;
             return nullptr;
         }
@@ -179,6 +179,9 @@ public:
         HMODULE hModule = nullptr;
         MODULEENTRY32 me32;
         me32.dwSize = sizeof(MODULEENTRY32);
+
+        baseAddress = 0;
+        sectionSize = 0;
 
         HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetProcessId(hProcess)); //fetch base address of hProcess
         if (hSnapshot == INVALID_HANDLE_VALUE)
@@ -236,7 +239,9 @@ public:
     */
     static bool GetRemoteSectionAddressWoW64(__in const HANDLE hProcess, __in const char* sectionName, __out ULONGLONG& baseAddress, __out SIZE_T& sectionSize)
     {
-       
+        baseAddress = 0;
+        sectionSize = 0;
+
         // Load function pointers
         HMODULE hNtDll = GetModuleHandleA("ntdll.dll");
         if (!hNtDll)
@@ -372,7 +377,7 @@ public:
         if (status != 0)
         {
 #ifdef _LOGGING_ENABLED
-            printf("Failed to call NtWow64ReadVirtualMemory64. Error: %x\n", GetLastError());
+			std::cerr << "Failed to call NtWow64ReadVirtualMemory64 @ WoW64Readx64Memory. NTSTATUS: " << std::hex << status << std::endl;
 #endif
             CloseHandle(hProc);
             return nullptr;
@@ -382,6 +387,11 @@ public:
         return buffer;
     }
 
+    
+    /*
+		Using WMI is far better since if OpenProcess fails, WMI can still fetch the path. Some cheat tools will use tricks to prevent OpenProcess from succeeding
+        WMI needs a bit more careful planning, especially when as a windows service (every thread must be initialized properly, services are much more error-prone here)
+    */
     static std::wstring GetProcessPathByPID(__in const DWORD pid)
     {
         //IWbemServices* pServices = WMI::ConnectToWMI();

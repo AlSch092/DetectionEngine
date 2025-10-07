@@ -29,8 +29,8 @@ private:
 	} SYSTEM_CODEINTEGRITY_INFORMATION;
 
 public:
-    HVCIScan() = default;
-    ~HVCIScan() = default;
+	HVCIScan() = default;
+	~HVCIScan() = default;
 
 	HVCIScan(__in const ScanIds id)
 	{
@@ -42,12 +42,12 @@ public:
 		this->Deserialize(rule);
 	}
 
-    DetectionResult Run() override
-    {
+	DetectionResult Run() override
+	{
 		if (!this->Enabled())
 			return {};
 
-        DetectionResult result;
+		DetectionResult result;
 		result.Flag = DetectionFlags::NONE;
 		this->RunCount++;
 
@@ -87,6 +87,6 @@ public:
 			}
 		}
 
-        return result;
-    }
+		return result;
+	}
 };
