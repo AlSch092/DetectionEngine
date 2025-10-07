@@ -25,20 +25,20 @@ The program makes use of inheritance, where a Detection base (`IDetector`) is de
 - `SecureBootScan.hpp`  -> Check if secure boot is enabled  
 - `UnsignedLoadedModulesScan.hpp`  -> Check for unsigned loaded modules    
 
-Custom detections can also be added using the library's `DetectionManager` class. An example of a JSON ruleset file can be found as `Rules.json`.
+Custom detections can also be added using the library's `DetectionManager` class: derive your detection class from `IDetector`, implement `Run()`, pick scan settings, and then call `DetectionManager::Register(std::move(yourClass))`. An example of a JSON ruleset file can be found as `Rules.json`.  
 
 ## Features  
 - Callbacks on process creation & exits  
 - Callbacks on DLL loads & unloads  
 - Authenticode/cert checks on loaded modules  
-- Telemetry system for pushing events & flagged processes to a server over HTTP  
+- Telemetry system for pushing events & flagged processes to a server over HTTP, with a heartbeat included    
 - Uses rule sets which can be customized based on your use case, with optional encrypting (Twofish) in-transit of the rules data  
 - Supports both 64-bit and 32-bit processes, and WoW64  
 - Most static strings are encrypted at compile time and decrypted on the stack at runtime when needed  
 - Each scan/detection can be customized, with a variety of scan types (process scan, non-process scan, system config scan, self-scan, fixed process ID scan, one-time scan, etc)  
 - Scans run at intervals based on their scan type: process scans run when a new process is created, one-time scans run once at startup, non-process scans run every X seconds  
 - Scan settings include option for terminating flagged processes   
-- Suitable to be run as a Windows Background Service, no found resource leaks  
+- Suitable to be run as a Windows Background Service, no found resource leaks, and has been tested as a Windows 10 service    
 
 ## Dependencies  
 This project makes use of the Capstone library. you will need to have `lib/capstone.lib` and/or `lib/capstone-d.lib` (debug build version). It also uses `HttpLib` which is a basic cURL wrapper that I made, and is part of the project solution (`lib/HttpLib.lib`, `lib/HttpLib32.lib` (32-bit), and `lib/HttpLib-d.lib`, `lib/HttpLib32-d.lib` for debug build). You can either use the libs provided in the `lib` folder or compile them yourself and put them in that folder.  
