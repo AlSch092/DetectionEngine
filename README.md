@@ -40,10 +40,10 @@ Custom detections can also be added using the library's `DetectionManager` class
 - Scan settings include option for terminating flagged processes   
 - Suitable to be run as a Windows Background Service, no found resource leaks, and has been tested as a Windows 10 service
 - Writing to Windows Event Log using `EventLog` class for specific errors  
-- Capstone library is implemented, can be implemented to send specific detected instructions at suspect memory to the telemetry server  
+- Capstone library is implemented,detections can be modified to send specific instruction sets at suspect memory to the telemetry server (such as gathering info about instructions in manually mapped regions)  
 
 ## Dependencies  
-This project makes use of the Capstone library. you will need to have `lib/capstone.lib` and/or `lib/capstone-d.lib` (debug build version). It also uses `HttpLib` which is a basic cURL wrapper that I made, and is part of the project solution (`lib/HttpLib.lib`, `lib/HttpLib32.lib` (32-bit), and `lib/HttpLib-d.lib`, `lib/HttpLib32-d.lib` for debug build). You can either use the libs provided in the `lib` folder or compile them yourself and put them in that folder.  
+This project makes use of the Capstone library. you will need to have `lib/capstone.lib` and/or `lib/capstone-d.lib` (debug build version). It also uses `HttpLib` which is a basic cURL wrapper that I made, and is part of the project solution (`lib/HttpLib.lib`, `lib/HttpLib32.lib` (32-bit), and `lib/HttpLib-d.lib`, `lib/HttpLib32-d.lib` for debug build). You can either use the libs provided in the `lib` folder or compile them yourself and put them in that folder. For clarification, see the included test stub .cpp file, or use it as a starting point  
 
 ## Licensing
 The project uses GNU GENERAL PUBLIC LICENSE VERSION 3  
