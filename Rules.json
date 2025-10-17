@@ -102,7 +102,7 @@
   {
     "enabled": true,
     "id": 7,
-    "label": "Process String Scan",
+    "label": ".rdata String Scan",
     "severity": 3,
     "is_process_scan": true,
     "is_one_time_scan": false,
